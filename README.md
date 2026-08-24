@@ -1,6 +1,6 @@
 # Hayden's dotfiles
 
-Portable macOS shell, Git, tmux, editor, Ghostty, Herdr, Codex, and Homebrew configuration.
+Bootstraps a lot of the my favourite CLIs, Git alias and other configurations in the terminal while installing a few other apps I use.
 
 ## New Mac setup
 
@@ -24,14 +24,12 @@ After installation:
 
 1. Update `~/.gitconfig.local` with your identity.
 2. Create `~/.zshlocal` for tokens and machine-specific exports.
-3. Generate a new SSH key with `ssh-keygen -t ed25519` and add its public key to GitHub.
-4. Sign in with `gh auth login`.
 
 Run `dotfiles-update` to update packages and shell plugins later.
 
 ## Restore repositories
 
-After adding your SSH key and authenticating to GitHub, clone the usual working repositories with:
+After adding your SSH key and authenticating to GitHub, I have the below script to mass clone repos
 
 ```sh
 ~/.dotfiles/scripts/clone-repos
@@ -39,6 +37,3 @@ After adding your SSH key and authenticating to GitHub, clone the usual working 
 
 It restores the repos listed in `repos.tsv` into `~/code`, and safely skips paths that already exist. Set `CODE_DIR` to use a different destination.
 
-## Cloud credentials
-
-The AWS CLI is installed from `Brewfile`, but AWS configuration and SSO cache files are intentionally not migrated. Authenticate on the new Mac with your normal profile flow, for example `aws configure sso` followed by `aws sso login --profile <profile>`.

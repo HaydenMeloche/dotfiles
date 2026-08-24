@@ -1,4 +1,4 @@
-model = "gpt-5.6-terra"
+model = "gpt-5.6-luna"
 model_reasoning_effort = "medium"
 personality = "pragmatic"
 approvals_reviewer = "auto_review"
@@ -10,3 +10,11 @@ enabled = true
 
 [features]
 hooks = true
+
+[projects."/Users/hayden/.dotfiles"]
+trust_level = "trusted"
+
+[hooks.state]
+
+[hooks.state."/Users/hayden/.codex/hooks.json:session_start:0:0"]
+trusted_hash = "sha256:99e6a4297f2189b228ae4020148816c89f252a72035a844e4a0fdd9c46693644"
