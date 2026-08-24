@@ -1,0 +1,24 @@
+#!/usr/bin/env zsh
+set -euo pipefail
+
+repo_dir="${DOTFILES:-$HOME/.dotfiles}"
+target_root="${CODE_DIR:-$HOME/code}"
+manifest="$repo_dir/repos.tsv"
+
+while IFS=$'\t' read -r relative_path remote_url; do
+  [[ -z "$relative_path" || "$relative_path" == \#* ]] && continue
+  target_path="$target_root/$relative_path"
+
+  if [[ -d "$target_path/.git" ]]; then
+    print "Skipping $relative_path (already cloned)"
+    continue
+  fi
+  if [[ -e "$target_path" ]]; then
+    print "Skipping $relative_path (path already exists and is not a Git repository)" >&2
+    continue
+  fi
+
+  mkdir -p "${target_path:h}"
+  print "Cloning $relative_path"
+  git clone "$remote_url" "$target_path"
+done < "$manifest"

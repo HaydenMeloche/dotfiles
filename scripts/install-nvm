@@ -1,0 +1,10 @@
+#!/usr/bin/env zsh
+set -euo pipefail
+
+if [[ ! -s "$HOME/.nvm/nvm.sh" ]]; then
+  # Keep the installer from editing shell files managed by this repository.
+  PROFILE=/dev/null bash -c 'curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.6/install.sh | bash'
+fi
+
+source "$HOME/.nvm/nvm.sh"
+print "NVM installed: $(nvm --version)"

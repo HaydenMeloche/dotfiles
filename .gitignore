@@ -1,0 +1,9 @@
+.DS_Store
+.idea/
+.zshlocal
+.gitconfig.local
+.ssh/config.local
+home/.ssh/id_*
+home/.ssh/*.pem
+home/.ssh/known_hosts*
+**/.env

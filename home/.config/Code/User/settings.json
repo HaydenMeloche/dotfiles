@@ -1,0 +1,19 @@
+{
+  "editor.accessibilitySupport": "off",
+  "editor.cursorBlinking": "smooth",
+  "editor.inlineSuggest.enabled": true,
+  "editor.suggestSelection": "first",
+  "files.autoSave": "afterDelay",
+  "files.exclude": {
+    "**/.project": true,
+    "**/.settings": true,
+    "**/.classpath": true,
+    "**/.factorypath": true
+  },
+  "notebook.cellToolbarLocation": { "default": "right", "jupyter-notebook": "left" },
+  "security.workspace.trust.untrustedFiles": "open",
+  "workbench.colorTheme": "GitHub Dark",
+  "workbench.iconTheme": "Monokai Pro Icons",
+  "workbench.productIconTheme": "icons-carbon",
+  "window.zoomLevel": 2
+}
