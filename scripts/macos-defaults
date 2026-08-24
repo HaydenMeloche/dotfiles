@@ -10,6 +10,9 @@ fi
 defaults write -g AppleInterfaceStyle -string 'Dark'
 defaults write -g ApplePressAndHoldEnabled -bool false
 
+# Mouse: use traditional scrolling direction rather than natural scrolling.
+defaults write -g com.apple.swipescrolldirection -bool false
+
 # Dock
 defaults write com.apple.dock autohide -bool true
 defaults write com.apple.dock tilesize -int 69
