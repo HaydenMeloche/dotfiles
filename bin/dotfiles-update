@@ -1,0 +1,6 @@
+#!/usr/bin/env zsh
+set -euo pipefail
+cd "${DOTFILES:-$HOME/.dotfiles}"
+git pull --ff-only
+brew bundle --file=Brewfile
+sheldon lock --update

@@ -1,0 +1,29 @@
+[init]
+  defaultBranch = main
+[core]
+  editor = nvim
+  excludesFile = ~/.gitignore_global
+  attributesfile = ~/.gitattributes
+  ignorecase = false
+  autocrlf = input
+[diff]
+  external = difft
+[push]
+  default = current
+  autoSetupRemote = true
+[pull]
+  rebase = false
+[alias]
+  s = status -sb
+  co = checkout
+  cb = checkout -b
+  l = log --all --graph --decorate --oneline
+  ll = log --stat --abbrev-commit
+  amend = commit --amend
+  sync = !git pull && git push
+[url "git@github.com:"]
+  insteadOf = gh:
+  insteadOf = github:
+  pushInsteadOf = git://github.com/
+[include]
+  path = ~/.gitconfig.local

@@ -1,0 +1,28 @@
+#!/usr/bin/env zsh
+set -euo pipefail
+
+if [[ "$(uname -s)" != "Darwin" ]]; then
+  print 'Skipping macOS defaults: this is not a Mac.'
+  exit 0
+fi
+
+# Appearance and keyboard behavior
+defaults write -g AppleInterfaceStyle -string 'Dark'
+defaults write -g ApplePressAndHoldEnabled -bool false
+
+# Dock
+defaults write com.apple.dock autohide -bool true
+defaults write com.apple.dock tilesize -int 69
+defaults write com.apple.dock show-recents -bool false
+
+# Finder
+defaults write com.apple.finder FXPreferredViewStyle -string 'Nlsv'
+defaults write com.apple.finder ShowStatusBar -bool false
+
+# Trackpads: keep physical click rather than tap-to-click.
+defaults write com.apple.AppleMultitouchTrackpad Clicking -bool false
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool false
+
+# Reload the affected services without requiring a sign-out.
+killall Dock 2>/dev/null || true
+killall Finder 2>/dev/null || true

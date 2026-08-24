@@ -1,0 +1,51 @@
+#!/usr/bin/env zsh
+set -euo pipefail
+
+repo_dir="${DOTFILES:-$HOME/.dotfiles}"
+cd "$repo_dir"
+
+if ! command -v brew >/dev/null 2>&1; then
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+fi
+eval "$(/opt/homebrew/bin/brew shellenv)"
+brew bundle --file="$repo_dir/Brewfile"
+if [[ "$(uname -s)" == "Darwin" ]]; then
+  "$repo_dir/scripts/macos-defaults"
+fi
+"$repo_dir/scripts/install-nvm"
+"$repo_dir/scripts/install-sdkman"
+"$repo_dir/scripts/install-codex"
+
+link_file() {
+  local source_path="$1" destination_path="$2"
+  mkdir -p "${destination_path:h}"
+  if [[ -e "$destination_path" && ! -L "$destination_path" ]]; then
+    mv "$destination_path" "$destination_path.backup.$(date +%Y%m%d%H%M%S)"
+  fi
+  ln -sfn "$source_path" "$destination_path"
+}
+
+for source_path in \
+  "$repo_dir/home/.zprofile" \
+  "$repo_dir/home/.zshrc" \
+  "$repo_dir/home/.gitconfig" \
+  "$repo_dir/home/.gitignore_global" \
+  "$repo_dir/home/.tmux.conf"; do
+  link_file "$source_path" "$HOME/${source_path:t}"
+done
+mkdir -p "$HOME/.config/sheldon" "$HOME/.config/ghostty" \
+  "$HOME/.config/herdr" "$HOME/.codex" \
+  "$HOME/Library/Application Support/Code/User" \
+  "$HOME/.ssh"
+link_file "$repo_dir/home/.config/sheldon/plugins.toml" "$HOME/.config/sheldon/plugins.toml"
+link_file "$repo_dir/home/.config/Code/User/settings.json" "$HOME/Library/Application Support/Code/User/settings.json"
+link_file "$repo_dir/home/.config/ghostty/config" "$HOME/.config/ghostty/config"
+link_file "$repo_dir/home/.config/herdr/config.toml" "$HOME/.config/herdr/config.toml"
+link_file "$repo_dir/home/.codex/config.toml" "$HOME/.codex/config.toml"
+link_file "$repo_dir/home/.codex/hooks.json" "$HOME/.codex/hooks.json"
+link_file "$repo_dir/home/.codex/herdr-agent-state.sh" "$HOME/.codex/herdr-agent-state.sh"
+
+[[ -f "$HOME/.gitconfig.local" ]] || cp "$repo_dir/home/.gitconfig.local.example" "$HOME/.gitconfig.local"
+[[ -f "$HOME/.ssh/config" ]] || cp "$repo_dir/home/.ssh/config.example" "$HOME/.ssh/config"
+sheldon lock --update
+print 'Dotfiles installed. Add private environment values to ~/.zshlocal.'

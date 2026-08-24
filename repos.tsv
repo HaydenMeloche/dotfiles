@@ -1,0 +1,13 @@
+# destination relative to ~/code<TAB>Git remote URL
+pine/aspen	git@github.com:pinecorpca/aspen.git
+pine/evergreen	git@github.com:pinecorpca/evergreen.git
+pine/trinity	git@github.com:pinecorpca/trinity.git
+pine/bellwoods	git@github.com:pinecorpca/bellwoods.git
+pine/servicing	git@github.com:pinecorpca/servicing.git
+pine/servicing-ui	git@github.com:pinecorpca/servicing-ui.git
+pine/servicing-tools	git@github.com:pinecorpca/servicing-tools.git
+pine/infra	git@github.com:pinecorpca/infra.git
+pine/airflow-dags	git@github.com:pinecorpca/airflow-dags.git
+pine/alderwood	git@github.com:pinecorpca/alderwood.git
+blog	git@github.com:HaydenMeloche/blog.git
+agentsmd-maintainer	git@github.com:HaydenMeloche/agents.md-maintainer.git

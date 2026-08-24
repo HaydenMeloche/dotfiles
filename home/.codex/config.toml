@@ -1,0 +1,12 @@
+model = "gpt-5.6-terra"
+model_reasoning_effort = "medium"
+personality = "pragmatic"
+approvals_reviewer = "auto_review"
+service_tier = "default"
+plan_mode_reasoning_effort = "medium"
+
+[plugins."github@openai-curated"]
+enabled = true
+
+[features]
+hooks = true
