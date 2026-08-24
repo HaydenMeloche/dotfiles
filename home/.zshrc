@@ -29,6 +29,9 @@ export NVM_DIR="$HOME/.nvm"
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ]] && source "$SDKMAN_DIR/bin/sdkman-init.sh"
 
+# Keep the Cloud CLI available without displaying its active account in the prompt.
+export SPACESHIP_GCLOUD_SHOW=false
+
 if command -v sheldon >/dev/null 2>&1; then
   eval "$(sheldon source)"
 fi
