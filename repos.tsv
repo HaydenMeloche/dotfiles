@@ -10,4 +10,3 @@ pine/infra	git@github.com:pinecorpca/infra.git
 pine/airflow-dags	git@github.com:pinecorpca/airflow-dags.git
 pine/alderwood	git@github.com:pinecorpca/alderwood.git
 blog	git@github.com:HaydenMeloche/blog.git
-agentsmd-maintainer	git@github.com:HaydenMeloche/agents.md-maintainer.git
