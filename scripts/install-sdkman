@@ -8,7 +8,7 @@ if [[ ! -x "$bash_path" ]]; then
 fi
 
 "$bash_path" -s <<'BASH'
-set -euo pipefail
+set -eo pipefail
 
 if [[ ! -s "$HOME/.sdkman/bin/sdkman-init.sh" ]]; then
   curl -s https://get.sdkman.io | bash
