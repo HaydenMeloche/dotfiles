@@ -44,7 +44,11 @@ link_file "$repo_dir/home/.config/herdr/config.toml" "$HOME/.config/herdr/config
 link_file "$repo_dir/home/.codex/config.toml" "$HOME/.codex/config.toml"
 link_file "$repo_dir/home/.codex/hooks.json" "$HOME/.codex/hooks.json"
 link_file "$repo_dir/home/.codex/herdr-agent-state.sh" "$HOME/.codex/herdr-agent-state.sh"
-link_file "$repo_dir/home/.codex/skills/ship" "$HOME/.codex/skills/ship"
+legacy_ship="$HOME/.codex/skills/ship"
+if [[ -L "$legacy_ship" && "$(readlink "$legacy_ship")" == "$repo_dir/home/.codex/skills/ship" ]]; then
+  rm "$legacy_ship"
+fi
+link_file "$repo_dir/home/.codex/skills/pine-ship" "$HOME/.codex/skills/pine-ship"
 
 [[ -f "$HOME/.gitconfig.local" ]] || cp "$repo_dir/home/.gitconfig.local.example" "$HOME/.gitconfig.local"
 [[ -f "$HOME/.ssh/config" ]] || cp "$repo_dir/home/.ssh/config.example" "$HOME/.ssh/config"

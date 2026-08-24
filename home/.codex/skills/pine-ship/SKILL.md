@@ -1,11 +1,11 @@
 ---
-name: ship
-description: Commit all changes on the current branch, push to GitHub, and open a pull request. Use when the user says "ship", "commit and PR", "push and create PR", or similar.
+name: pine-ship
+description: Ship a Pine pull request: review and commit the current branch, push it to GitHub, and open a Pine PR. Use when the user says "pine ship", "ship this Pine PR", or asks to commit, push, and create a Pine PR.
 ---
 
-# Ship: Commit, Push, And Create PR
+# Pine Ship: Commit, Push, And Create A Pine PR
 
-Use this skill when the user asks to commit local work, push the branch, and create a GitHub pull request.
+Use this skill when the user asks to ship work in a Pine repository: commit local work, push the branch, and create a GitHub pull request.
 
 ## Gather Context
 
