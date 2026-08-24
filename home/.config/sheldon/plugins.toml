@@ -12,5 +12,3 @@ use = ["{{ name }}.zsh"]
 github = "hlissner/zsh-autopair"
 [plugins.z]
 github = "agkozak/zsh-z"
-[plugins.lib]
-local = "~/.dotfiles/lib"
