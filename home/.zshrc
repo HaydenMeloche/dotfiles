@@ -37,6 +37,11 @@ if command -v direnv >/dev/null 2>&1; then
   eval "$(direnv hook zsh)"
 fi
 
+# Ctrl-R command-history search, Ctrl-T file search, and Alt-C directory search.
+if command -v fzf >/dev/null 2>&1; then
+  source <(fzf --zsh)
+fi
+
 if [[ -d "$DOTFILES/custom" ]]; then
   for file in "$DOTFILES"/custom/*.zsh(N); do source "$file"; done
 fi
