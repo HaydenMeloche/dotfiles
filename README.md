@@ -18,6 +18,8 @@ On macOS, bootstrap also runs `scripts/macos-defaults` to apply the tracked Dark
 
 `Brewfile` contains the Homebrew-managed command-line tools and apps. NVM is installed with its official per-user installer, and shell initialization is tracked; it intentionally has no default Node version because the current Mac has none configured. SDKMAN! is installed separately, but no SDK candidates are installed automatically. Codex is installed separately with OpenAI's standalone installer, which is the official macOS/Linux route. Its portable preferences, GitHub plugin setting, and Herdr SessionStart hook are included; authentication, histories, sessions, caches, and machine-specific project trust are intentionally excluded. Python and VS Code extension lists are not currently managed because no portable active inventory was found.
 
+The personal `ship` Codex skill is also linked into `~/.codex/skills/ship`; it prepares a reviewed commit, push, and pull request, but refuses to push directly to `main` or `master`.
+
 After installation:
 
 1. Update `~/.gitconfig.local` with your identity.

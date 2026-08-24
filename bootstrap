@@ -34,7 +34,7 @@ for source_path in \
   link_file "$source_path" "$HOME/${source_path:t}"
 done
 mkdir -p "$HOME/.config/sheldon" "$HOME/.config/ghostty" \
-  "$HOME/.config/herdr" "$HOME/.codex" \
+  "$HOME/.config/herdr" "$HOME/.codex/skills" \
   "$HOME/Library/Application Support/Code/User" \
   "$HOME/.ssh"
 link_file "$repo_dir/home/.config/sheldon/plugins.toml" "$HOME/.config/sheldon/plugins.toml"
@@ -44,6 +44,7 @@ link_file "$repo_dir/home/.config/herdr/config.toml" "$HOME/.config/herdr/config
 link_file "$repo_dir/home/.codex/config.toml" "$HOME/.codex/config.toml"
 link_file "$repo_dir/home/.codex/hooks.json" "$HOME/.codex/hooks.json"
 link_file "$repo_dir/home/.codex/herdr-agent-state.sh" "$HOME/.codex/herdr-agent-state.sh"
+link_file "$repo_dir/home/.codex/skills/ship" "$HOME/.codex/skills/ship"
 
 [[ -f "$HOME/.gitconfig.local" ]] || cp "$repo_dir/home/.gitconfig.local.example" "$HOME/.gitconfig.local"
 [[ -f "$HOME/.ssh/config" ]] || cp "$repo_dir/home/.ssh/config.example" "$HOME/.ssh/config"
