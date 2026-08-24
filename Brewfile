@@ -1,6 +1,7 @@
 # Command-line tools
 brew "aws-iam-authenticator"
 brew "awscli"
+brew "bash"
 brew "fzf"
 brew "gh"
 brew "git"

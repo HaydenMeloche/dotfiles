@@ -1,6 +1,15 @@
 #!/usr/bin/env zsh
 set -euo pipefail
 
+bash_path="$(brew --prefix bash)/bin/bash"
+if [[ ! -x "$bash_path" ]]; then
+  print 'Homebrew Bash is required for SDKMAN but was not found.' >&2
+  exit 1
+fi
+
+"$bash_path" -s <<'BASH'
+set -euo pipefail
+
 if [[ ! -s "$HOME/.sdkman/bin/sdkman-init.sh" ]]; then
   curl -s https://get.sdkman.io | bash
 fi
@@ -10,7 +19,7 @@ source "$HOME/.sdkman/bin/sdkman-init.sh"
 for candidate in 'java 21.0.3-zulu' 'gradle 7.4' 'kotlin 1.6.10'; do
   read -r name version <<< "$candidate"
   if ! sdk list "$name" | grep -Fq "$version"; then
-    print "SDKMAN does not offer $name $version; skipping it."
+    printf 'SDKMAN does not offer %s %s; skipping it.\n' "$name" "$version"
     continue
   fi
   if [[ ! -d "$SDKMAN_DIR/candidates/$name/$version" ]]; then
@@ -18,3 +27,4 @@ for candidate in 'java 21.0.3-zulu' 'gradle 7.4' 'kotlin 1.6.10'; do
   fi
   sdk default "$name" "$version"
 done
+BASH
