@@ -18,6 +18,11 @@ path_prepend "$DOTFILES/bin"
 path_prepend "$HOME/.npm-global/bin"
 path_prepend "$HOME/.bun/bin"
 
+# Keep navigation and display helpers available even if shell plugins fail to load.
+[[ -f "$DOTFILES/lib/aliases.zsh" ]] && source "$DOTFILES/lib/aliases.zsh"
+[[ -f "$DOTFILES/lib/lscolors.zsh" ]] && source "$DOTFILES/lib/lscolors.zsh"
+[[ -f "$DOTFILES/lib/smartdots.zsh" ]] && source "$DOTFILES/lib/smartdots.zsh"
+
 export NVM_DIR="$HOME/.nvm"
 [[ -s "$NVM_DIR/nvm.sh" ]] && source "$NVM_DIR/nvm.sh"
 
