@@ -15,16 +15,5 @@ if [[ ! -s "$HOME/.sdkman/bin/sdkman-init.sh" ]]; then
 fi
 
 source "$HOME/.sdkman/bin/sdkman-init.sh"
-
-for candidate in 'java 21.0.3-zulu' 'gradle 7.4' 'kotlin 1.6.10'; do
-  read -r name version <<< "$candidate"
-  if ! sdk list "$name" | grep -Fq "$version"; then
-    printf 'SDKMAN does not offer %s %s; skipping it.\n' "$name" "$version"
-    continue
-  fi
-  if [[ ! -d "$SDKMAN_DIR/candidates/$name/$version" ]]; then
-    sdk install "$name" "$version"
-  fi
-  sdk default "$name" "$version"
-done
+sdk version
 BASH
