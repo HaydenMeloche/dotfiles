@@ -1,4 +1,4 @@
-model = "gpt-5.6-luna"
+model = "gpt-5.6-terra"
 model_reasoning_effort = "medium"
 personality = "pragmatic"
 approvals_reviewer = "auto_review"
@@ -14,7 +14,13 @@ hooks = true
 [projects."/Users/hayden/.dotfiles"]
 trust_level = "trusted"
 
+[projects."/Users/hayden/code/pine/evergreen"]
+trust_level = "trusted"
+
 [hooks.state]
 
 [hooks.state."/Users/hayden/.codex/hooks.json:session_start:0:0"]
 trusted_hash = "sha256:99e6a4297f2189b228ae4020148816c89f252a72035a844e4a0fdd9c46693644"
+
+[hooks.state."/Users/hayden/.codex/hooks.json:session_start:1:0"]
+trusted_hash = "sha256:ad857c92d4c9a82638a4ad33a8c0173402c5c8348bd207bcd32fae8d1a004df0"

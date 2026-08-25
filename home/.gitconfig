@@ -6,7 +6,7 @@
   attributesfile = ~/.gitattributes
   ignorecase = false
   autocrlf = input
-	pager = hunk pager
+  pager = hunk pager
 [push]
   default = current
   autoSetupRemote = true
@@ -19,7 +19,8 @@
   l = log --all --graph --decorate --oneline
   ll = log --stat --abbrev-commit
   amend = commit --amend
-  sync = !git pull && git push
+  redo = !git log -n 1 --pretty=tformat:%s%n%n%b | git commit -F - --amend
+  undo = reset --mixed HEAD^
 [url "git@github.com:"]
   insteadOf = gh:
   insteadOf = github:
