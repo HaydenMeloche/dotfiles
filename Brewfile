@@ -16,7 +16,6 @@ brew "protobuf"
 brew "pyenv"
 brew "ripgrep"
 brew "sheldon"
-brew "tmux"
 brew "yazi"
 brew "zsh"
 
