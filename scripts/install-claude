@@ -1,0 +1,17 @@
+#!/usr/bin/env zsh
+set -euo pipefail
+
+claude_bin="$HOME/.local/bin/claude"
+
+if command -v claude >/dev/null 2>&1; then
+  print "Claude Code is already installed: $(claude --version)"
+  exit 0
+fi
+
+if [[ -x "$claude_bin" ]]; then
+  print "Claude Code is already installed: $($claude_bin --version)"
+  exit 0
+fi
+
+# Official native installer for macOS and Linux.
+curl -fsSL https://claude.ai/install.sh | bash

@@ -16,9 +16,11 @@ On macOS, bootstrap also runs `scripts/macos-defaults` to apply the tracked Dark
 
 ## Package sources
 
-`Brewfile` contains the Homebrew-managed command-line tools and apps. NVM is installed with its official per-user installer, and shell initialization is tracked; it intentionally has no default Node version because the current Mac has none configured. SDKMAN! is installed separately, but no SDK candidates are installed automatically. Codex is installed separately with OpenAI's standalone installer, which is the official macOS/Linux route. Its portable preferences, GitHub plugin setting, and Herdr SessionStart hook are included; authentication, histories, sessions, caches, and machine-specific project trust are intentionally excluded. Python and VS Code extension lists are not currently managed because no portable active inventory was found.
+`Brewfile` contains the Homebrew-managed command-line tools and apps. NVM is installed with its official per-user installer, and shell initialization is tracked; it intentionally has no default Node version because the current Mac has none configured. SDKMAN! is installed separately, but no SDK candidates are installed automatically. Codex and Claude Code are installed separately with their official standalone installers, which are the recommended macOS/Linux routes. Their portable preferences and Herdr SessionStart hooks are included; authentication, histories, sessions, caches, and machine-specific project trust are intentionally excluded. Python and VS Code extension lists are not currently managed because no portable active inventory was found.
 
-The personal `pine-ship` Codex skill is also linked into `~/.codex/skills/pine-ship`; it prepares a reviewed Pine commit, push, and pull request, but refuses to push directly to `main` or `master`.
+The personal `pine-ship` Codex skill is also linked into `~/.codex/skills/pine-ship`; it prepares a reviewed Pine commit, push, and pull request, but refuses to push directly to `main` or `master`. Claude Code's portable display and hook settings are linked into `~/.claude`; its authentication, machine state, project trust, transcripts, and caches are deliberately excluded.
+
+Hammerspoon is installed through Homebrew and its hotkey configuration is linked to `~/.hammerspoon/init.lua`. Karabiner-Elements turns Caps Lock into a Hyper/Super modifier (Control-Option-Shift-Command), while preserving Escape when Caps Lock is tapped. Hammerspoon then uses that modifier for the shortcuts: Hyper-1 through 4 launch Ghostty, Firefox, Slack, and IntelliJ IDEA, and Hyper-R reloads the configuration. After bootstrap, enable **Caps Lock to Hyper** from Karabiner-Elements → Complex Modifications → Add predefined rule.
 
 After installation:
 
@@ -36,4 +38,3 @@ After adding your SSH key and authenticating to GitHub, I have the below script 
 ```
 
 It restores the repos listed in `repos.tsv` into `~/code`, and safely skips paths that already exist. Set `CODE_DIR` to use a different destination.
-

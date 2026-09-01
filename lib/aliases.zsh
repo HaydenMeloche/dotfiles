@@ -31,3 +31,21 @@ alias update='dotfiles-update'
 alias myip="ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\\.){3}[0-9]*).*/\\2/p'"
 alias path='echo ${PATH//:/\\n}'
 alias reload='source ~/.zshrc'
+
+# Usage: killport 3000
+killport() {
+  if [[ ! "$1" =~ '^[0-9]+$' ]]; then
+    print -u2 'Usage: killport <port>'
+    return 2
+  fi
+
+  local pids
+  pids="$(command lsof -tiTCP:"$1" -sTCP:LISTEN)"
+  if [[ -z "$pids" ]]; then
+    print -u2 "No process is listening on port $1."
+    return 1
+  fi
+
+  print "Killing process(es) on port $1: $pids"
+  kill $pids
+}
