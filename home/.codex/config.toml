@@ -4,6 +4,22 @@ personality = "pragmatic"
 approvals_reviewer = "auto_review"
 service_tier = "default"
 plan_mode_reasoning_effort = "medium"
+default_permissions = "github-cli"
+
+# Keep Codex sandboxed while allowing GitHub CLI commands to use the local
+# authentication/configuration state they need.
+[permissions.github-cli]
+description = "Workspace access plus GitHub CLI and Git-over-SSH access"
+extends = ":workspace"
+
+[permissions.github-cli.filesystem]
+"/Users/hayden/.config/gh" = "read"
+
+"/Users/hayden/.ssh" = "read"
+
+[permissions.github-cli.network]
+enabled = true
+mode = "full"
 
 [plugins."github@openai-curated"]
 enabled = true
@@ -15,6 +31,21 @@ hooks = true
 trust_level = "trusted"
 
 [projects."/Users/hayden/code/pine/evergreen"]
+trust_level = "trusted"
+
+[projects."/Users/hayden/code/pine"]
+trust_level = "trusted"
+
+[projects."/Users/hayden/code/pine/aspen"]
+trust_level = "trusted"
+
+[projects."/Users/hayden/code/pine/langfuse"]
+trust_level = "trusted"
+
+[projects."/Users/hayden/code/pine/servicing"]
+trust_level = "trusted"
+
+[projects."/Users/hayden/code/pine/infra"]
 trust_level = "trusted"
 
 [hooks.state]

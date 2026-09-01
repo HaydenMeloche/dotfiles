@@ -4,6 +4,7 @@ export LC_ALL="en_US.UTF-8"
 export PAGER="less"
 export EDITOR="nvim"
 export VISUAL="$EDITOR"
+export GIT_USERNAME="HaydenMeloche"
 
 setopt noclobber
 setopt auto_cd
@@ -49,5 +50,17 @@ if [[ -d "$DOTFILES/custom" ]]; then
   for file in "$DOTFILES"/custom/*.zsh(N); do source "$file"; done
 fi
 
+# Keep Herdr tab names in sync with the foreground command.
+for _herdr_rename_hook in "$HOME"/.config/herdr/plugins/github/herdr-automatic-rename-*/shell/hook.zsh(N); do
+  source "$_herdr_rename_hook"
+  break
+done
+unset _herdr_rename_hook
+
 # This file is intentionally untracked: tokens, work endpoints, and local paths go here.
 [[ -f "$HOME/.zshlocal" ]] && source "$HOME/.zshlocal"
+# The following lines have been added by Docker Desktop to enable Docker CLI completions.
+fpath=(/Users/hayden/.docker/completions $fpath)
+autoload -Uz compinit
+compinit
+# End of Docker CLI completions

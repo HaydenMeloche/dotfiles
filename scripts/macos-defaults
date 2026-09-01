@@ -18,6 +18,28 @@ defaults write com.apple.dock autohide -bool true
 defaults write com.apple.dock tilesize -int 69
 defaults write com.apple.dock show-recents -bool false
 
+# Pinned Dock items, captured on 2026-08-31. Rebuild these lists so their order is
+# consistent on a new Mac. Apps that are not installed will appear with a question-mark icon.
+defaults delete com.apple.dock persistent-apps 2>/dev/null || true
+defaults write com.apple.dock persistent-apps -array
+
+add_dock_app() {
+  local url="$1"
+  defaults write com.apple.dock persistent-apps -array-add \
+    "{tile-data={file-data={_CFURLString=\"${url}\"; _CFURLStringType=15;};}; tile-type=\"file-tile\";}"
+}
+
+add_dock_app 'file:///System/Applications/Apps.app/'
+add_dock_app 'file:///Applications/Firefox.app/'
+add_dock_app 'file:///Applications/Slack.app/'
+add_dock_app 'file:///Applications/Ghostty.app/'
+add_dock_app 'file:///System/Applications/Messages.app/'
+add_dock_app 'file:///Applications/Docker.app/Contents/MacOS/Docker%20Desktop.app/'
+
+defaults delete com.apple.dock persistent-others 2>/dev/null || true
+defaults write com.apple.dock persistent-others -array \
+  '{tile-data={arrangement=2; displayas=0; showas=1; file-data={_CFURLString="file:///Users/hayden/Downloads/"; _CFURLStringType=15;};}; tile-type="directory-tile";}'
+
 # Finder
 defaults write com.apple.finder FXPreferredViewStyle -string 'Nlsv'
 defaults write com.apple.finder ShowStatusBar -bool false
