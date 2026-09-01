@@ -30,12 +30,10 @@ Then set your Git identity in `~/.gitconfig.local`, add your SSH key and `~/.ssh
 - `lib/lscolors.zsh` — file-listing and completion colours.
 - `lib/smartdots.zsh` — expands repeated `.` keystrokes into parent-directory navigation.
 - `home/.config/sheldon/plugins.toml` and `prompt/spaceship.zsh` — Zsh plugin list and the Spaceship prompt loader.
-- `home/.tmux.conf` — `Ctrl-A` prefix, vim-style pane navigation, mouse support, larger history, and macOS clipboard copying.
 - `home/.config/ghostty/config` — GitHub Dark Dimmed theme and FiraCode Nerd Font terminal settings.
 
 ## Editors and desktop automation
 
-- `home/.config/Code/User/settings.json` — VS Code editor, autosave, appearance, excluded-file, and zoom preferences.
 - `home/.config/nvim/init.lua` — Neovim Treesitter and rendered-Markdown plugins.
 - `home/.config/karabiner/assets/complex_modifications/caps_lock_to_hyper.json` — maps Caps Lock to Hyper/Super (`Control-Option-Shift-Command`) when held and Escape when tapped. Enable **Caps Lock to Hyper** in Karabiner-Elements after bootstrapping.
 - `home/.hammerspoon/init.lua` — uses the Hyper modifier supplied by Karabiner: Hyper-1 through 4 open Ghostty, Firefox, Slack, and IntelliJ IDEA; Hyper-R reloads Hammerspoon.
