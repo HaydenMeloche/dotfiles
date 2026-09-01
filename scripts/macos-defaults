@@ -9,6 +9,8 @@ fi
 # Appearance and keyboard behavior
 defaults write -g AppleInterfaceStyle -string 'Dark'
 defaults write -g ApplePressAndHoldEnabled -bool false
+# Display: disable adaptive brightness.
+defaults write com.apple.dpx.av AutoBrightness -bool false
 
 # Mouse: use traditional scrolling direction rather than natural scrolling.
 defaults write -g com.apple.swipescrolldirection -bool false
