@@ -1,5 +1,5 @@
 [init]
-  defaultBranch = main
+  defaultBranch = master
 [core]
   editor = nvim
   excludesFile = ~/.gitignore_global
