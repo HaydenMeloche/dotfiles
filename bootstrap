@@ -56,5 +56,6 @@ link_file "$repo_dir/home/.codex/skills/pine-ship" "$HOME/.codex/skills/pine-shi
 
 [[ -f "$HOME/.gitconfig.local" ]] || cp "$repo_dir/home/.gitconfig.local.example" "$HOME/.gitconfig.local"
 [[ -f "$HOME/.ssh/config" ]] || cp "$repo_dir/home/.ssh/config.example" "$HOME/.ssh/config"
+touch "$HOME/.zshlocal"
 sheldon lock --update
 print 'Dotfiles installed. Add private environment values to ~/.zshlocal.'

@@ -10,8 +10,14 @@ git clone git@github.com:HaydenMeloche/dotfiles.git ~/.dotfiles
 cd ~/.dotfiles
 ./bootstrap
 ```
+The installation script symlinks all the files in this repo to the locations that their applications expect their configs to live. For example `$repo_dir/home/.zshrc` (the file in this repo) will be symlinked to `~/.zshrc`. Any direct config updates in the future to `~/.zshrc` is updating the git-versioned file in this repo.
 
-Then set your Git identity in `~/.gitconfig.local`, add your SSH key and `~/.ssh/config`, and create `~/.zshlocal` for private environment variables. In Karabiner-Elements, enable **Caps Lock to Hyper** from **Complex Modifications**. Use `dotfiles-update` later to update the repository, packages, and shell plugins.
+Once the script is complete, set your Git identity in `~/.gitconfig.local` and add your SSH key to `~/.ssh/config`. A `~/.zshlocal` file is created for private environment variables.
+
+I never use caps lock, therefor I remap it to a "super" shortcut through Karabiner. I do this to achieve my window-tiling style quick access keys for example `CAPS + 1` opening/focsuing to Ghostty.
+If you want to replicate this, open Karabiner-Elements and enable **Caps Lock to Hyper** from **Complex Modifications**.
+
+Use `dotfiles-update` later to update the repository, packages, and shell plugins.
 
 ## What is configured
 
