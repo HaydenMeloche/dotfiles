@@ -12,8 +12,8 @@ defaults write -g ApplePressAndHoldEnabled -bool false
 # Display: disable adaptive brightness.
 defaults write com.apple.dpx.av AutoBrightness -bool false
 
-# Mouse: use traditional scrolling direction rather than natural scrolling.
-defaults write -g com.apple.swipescrolldirection -bool false
+# Mouse: use natural scrolling direction.
+defaults write -g com.apple.swipescrolldirection -bool true
 
 # Dock
 defaults write com.apple.dock autohide -bool true
