@@ -55,6 +55,10 @@ Use `dotfiles-update` later to update the repository, packages, and shell plugin
 - `home/.claude/settings.json` and `home/.claude/hooks/herdr-agent-state.sh` — Claude Code display settings and a Herdr SessionStart hook.
 - `home/.config/herdr/config.toml` — Herdr terminal theme, UI, status indicators, sound, and toast delivery preferences.
 
+## Coding agents in this repo
+
+- `AGENTS.md` — notes for coding agents working on this repo: what must stay out of the public repo, how files are installed, and shell load order. `CLAUDE.md` imports it for Claude Code.
+
 ## Local-only settings
 
 - `~/.zshlocal` for private shell variables.
