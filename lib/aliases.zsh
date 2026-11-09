@@ -10,7 +10,6 @@ fi
 alias g='git'
 alias gs='git status -sb'
 alias gd='git diff'
-alias gl='git log --all --graph --decorate --oneline'
 alias gst='git status'
 alias gco='git checkout'
 alias gcam='git commit -a -m'
