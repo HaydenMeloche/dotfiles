@@ -3,7 +3,12 @@ set -euo pipefail
 
 repo_dir="${DOTFILES:-$HOME/.dotfiles}"
 target_root="${CODE_DIR:-$HOME/code}"
-manifest="$repo_dir/repos.tsv"
+manifest="${REPOS_FILE:-$HOME/.repos.tsv}"
+
+if [[ ! -f "$manifest" ]]; then
+  print -u2 "No repo list at $manifest. Copy $repo_dir/repos.tsv.example there to start."
+  exit 1
+fi
 
 while IFS=$'\t' read -r relative_path remote_url; do
   [[ -z "$relative_path" || "$relative_path" == \#* ]] && continue

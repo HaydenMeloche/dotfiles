@@ -26,7 +26,7 @@ Use `dotfiles-update` later to update the repository, packages, and shell plugin
 - `bin/dotfiles-update` — updates this repository, Homebrew packages, and Sheldon plugins.
 - `scripts/install-{nvm,sdkman,codex,claude}` — install NVM, SDKMAN!, Codex, and Claude Code if they are not already available.
 - `scripts/macos-defaults` — Dark Mode, keyboard and scrolling preferences, Dock layout, Finder settings, and trackpad click behavior.
-- `scripts/clone-repos` and `repos.tsv` — clone the listed repositories into `~/code` (or `$CODE_DIR`), without replacing existing directories.
+- `scripts/clone-repos` — clone the repositories listed in `~/.repos.tsv` (or `$REPOS_FILE`) into `~/code` (or `$CODE_DIR`), without replacing existing directories. `repos.tsv.example` shows the format.
 
 ## Shell and terminal
 
@@ -60,5 +60,6 @@ Use `dotfiles-update` later to update the repository, packages, and shell plugin
 
 - `~/.zshlocal` for private shell variables.
 - `~/.gitconfig.local` for Git identity.
+- `~/.repos.tsv` for the list of repositories `scripts/clone-repos` clones.
 - `~/.ssh/config` and SSH keys for SSH configuration and credentials.
 - Codex and Claude authentication, session history, caches, and per-machine trust settings.
