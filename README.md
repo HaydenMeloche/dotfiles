@@ -50,7 +50,7 @@ Use `dotfiles-update` later to update the repository, packages, and shell plugin
 - `home/.gitignore_global` — ignores common editor, environment, certificate, and signing-key files across repositories.
 - `home/.gitconfig.local.example` — template for the untracked local Git identity.
 - `home/.ssh/config.example` — template for the untracked SSH GitHub host configuration.
-- `home/.codex/config.toml` — Codex model, permissions, plugins, trusted projects, and hook state.
+- `home/.codex/config.toml` — starting Codex config (model, permissions, plugins), copied to `~/.codex/config.toml` on first install. Codex keeps trusted projects and hook state in its own copy.
 - `home/.codex/hooks.json` and `home/.codex/herdr-agent-state.sh` — report Codex session state to Herdr.
 - `home/.codex/skills/pine-ship` — personal Codex skill for safely preparing and opening Pine pull requests.
 - `home/.claude/settings.json` and `home/.claude/hooks/herdr-agent-state.sh` — Claude Code display settings and a Herdr SessionStart hook.
