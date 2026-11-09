@@ -82,4 +82,9 @@ unset _herdr_rename_hook
 # Initialized last so its directory-change hook isn't overridden.
 if command -v zoxide >/dev/null 2>&1; then
   eval "$(zoxide init zsh)"
+
+  # Alt-Z opens the zi picker, keeping any half-typed command for later.
+  zoxide-jump() { zle push-input; BUFFER="zi"; zle accept-line }
+  zle -N zoxide-jump
+  bindkey '\ez' zoxide-jump
 fi
