@@ -22,7 +22,7 @@ Use `dotfiles-update` later to update the repository, packages, and shell plugin
 - `bootstrap` — the main installer: installs Homebrew packages and developer tools, applies macOS defaults, and creates configuration symlinks.
 - `bin/dotfiles-update` — updates this repository, Homebrew packages, and Sheldon plugins.
 - `scripts/install-{nvm,sdkman,codex,claude}` — install NVM, SDKMAN!, Codex, and Claude Code if they are not already available.
-- `scripts/macos-defaults` — Dark Mode, keyboard and scrolling preferences, Dock layout, Finder settings, and trackpad click behavior.
+- `scripts/macos-defaults` — Dark Mode, keyboard and scrolling preferences, never sleeping on AC power, Dock layout, Finder settings, and trackpad click behavior.
 - `scripts/clone-repos` — clone the repositories listed in `~/.repos.tsv` (or `$REPOS_FILE`) into `~/code` (or `$CODE_DIR`), without replacing existing directories. `repos.tsv.example` shows the format.
 
 ## Shell and terminal

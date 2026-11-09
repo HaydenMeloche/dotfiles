@@ -12,6 +12,9 @@ defaults write -g ApplePressAndHoldEnabled -bool false
 # Display: disable adaptive brightness.
 defaults write com.apple.dpx.av AutoBrightness -bool false
 
+# Power: on AC power, let the display sleep but never sleep the system.
+sudo pmset -c sleep 0
+
 # Mouse: use natural scrolling direction.
 defaults write -g com.apple.swipescrolldirection -bool true
 
