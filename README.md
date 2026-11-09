@@ -37,6 +37,7 @@ Use `dotfiles-update` later to update the repository, packages, and shell plugin
 - `lib/smartdots.zsh` — expands repeated `.` keystrokes into parent-directory navigation.
 - `home/.config/sheldon/plugins.toml` and `prompt/spaceship.zsh` — Zsh plugin list and the Spaceship prompt loader.
 - `home/.config/ghostty/config` — GitHub Dark Dimmed theme and FiraCode Nerd Font terminal settings.
+- `home/.config/rex/init.lua` and `home/.config/rex/rex_open.lua` — Rex terminal config and the rex-open picker (Alt-Cmd-O) for files, links and commands in a pane's output. Rex itself is installed from the Rex website, not Homebrew.
 
 ## Editors and desktop automation
 
