@@ -25,7 +25,16 @@ path_prepend "$HOME/.bun/bin"
 [[ -f "$DOTFILES/lib/smartdots.zsh" ]] && source "$DOTFILES/lib/smartdots.zsh"
 
 export NVM_DIR="$HOME/.nvm"
-[[ -s "$NVM_DIR/nvm.sh" ]] && source "$NVM_DIR/nvm.sh"
+if [[ -s "$NVM_DIR/nvm.sh" ]]; then
+  source "$NVM_DIR/nvm.sh" --no-use
+  _nvm_default="$NVM_DIR/versions/node/$(<"$NVM_DIR/alias/default")"
+  if [[ -d "$_nvm_default/bin" ]]; then
+    path_prepend "$_nvm_default/bin"
+  else
+    nvm use default --silent
+  fi
+  unset _nvm_default
+fi
 
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ]] && source "$SDKMAN_DIR/bin/sdkman-init.sh"
@@ -33,6 +42,10 @@ export SDKMAN_DIR="$HOME/.sdkman"
 # Keep the Cloud CLI available without displaying its active account in the prompt.
 export SPACESHIP_GCLOUD_SHOW=false
 
+fpath=("$HOME/.docker/completions" $fpath)
+
+plugins=()
+ZSH_THEME=""
 if command -v sheldon >/dev/null 2>&1; then
   eval "$(sheldon source)"
 fi
@@ -59,8 +72,3 @@ unset _herdr_rename_hook
 
 # This file is intentionally untracked: tokens, work endpoints, and local paths go here.
 [[ -f "$HOME/.zshlocal" ]] && source "$HOME/.zshlocal"
-# The following lines have been added by Docker Desktop to enable Docker CLI completions.
-fpath=(/Users/hayden/.docker/completions $fpath)
-autoload -Uz compinit
-compinit
-# End of Docker CLI completions
