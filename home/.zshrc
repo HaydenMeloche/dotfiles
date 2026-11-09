@@ -19,7 +19,6 @@ path_prepend "$HOME/.npm-global/bin"
 path_prepend "$HOME/.bun/bin"
 
 # Keep navigation and display helpers available even if shell plugins fail to load.
-[[ -f "$DOTFILES/lib/aliases.zsh" ]] && source "$DOTFILES/lib/aliases.zsh"
 [[ -f "$DOTFILES/lib/lscolors.zsh" ]] && source "$DOTFILES/lib/lscolors.zsh"
 [[ -f "$DOTFILES/lib/smartdots.zsh" ]] && source "$DOTFILES/lib/smartdots.zsh"
 
@@ -53,6 +52,8 @@ zstyle ':completion:*' menu no
 zstyle ':completion:*:descriptions' format '[%d]'
 zstyle ':fzf-tab:*' switch-group '<' '>'
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
+
+[[ -f "$DOTFILES/lib/aliases.zsh" ]] && source "$DOTFILES/lib/aliases.zsh"
 
 if command -v direnv >/dev/null 2>&1; then
   eval "$(direnv hook zsh)"
