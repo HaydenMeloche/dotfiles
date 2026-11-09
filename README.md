@@ -1,6 +1,6 @@
 # Dotfiles
 
-This repo represents my personal development setup built in a infrastructure-as-code style of repository. I use it to centrally store as many configs as possible and keep them versioned for debugging and sharing purposes.
+This repo represents my personal development setup built in an infrastructure-as-code style of repository. I use it to centrally store as many configs as possible and keep them versioned for debugging and sharing purposes.
 
 
 ## Install
@@ -10,11 +10,11 @@ git clone git@github.com:HaydenMeloche/dotfiles.git ~/.dotfiles
 cd ~/.dotfiles
 ./bootstrap
 ```
-The installation script symlinks all the files in this repo to the locations that their applications expect their configs to live. For example `$repo_dir/home/.zshrc` (the file in this repo) will be symlinked to `~/.zshrc`. Any direct config updates in the future to `~/.zshrc` is updating the git-versioned file in this repo.
+The installation script symlinks the files in this repo to the locations that their applications expect their configs to live. For example `$repo_dir/home/.zshrc` (the file in this repo) will be symlinked to `~/.zshrc`. Any direct config updates in the future to `~/.zshrc` is updating the git-versioned file in this repo. Files that apps write machine state into (`~/.codex/config.toml`, `~/.gitconfig.local`, `~/.ssh/config`) are copied once instead.
 
 Once the script is complete, set your Git identity in `~/.gitconfig.local` and add your SSH key to `~/.ssh/config`. A `~/.zshlocal` file is created for private environment variables.
 
-I never use caps lock, therefor I remap it to a "super" shortcut through Karabiner. I do this to achieve my window-tiling style quick access keys for example `CAPS + 1` opening/focsuing to Ghostty.
+I never use caps lock, therefore I remap it to a "super" shortcut through Karabiner. I do this to achieve my window-tiling style quick access keys for example `CAPS + 1` opening/focusing Ghostty.
 If you want to replicate this, open Karabiner-Elements and enable **Caps Lock to Hyper** from **Complex Modifications**.
 
 Use `dotfiles-update` later to update the repository, packages, and shell plugins.
@@ -40,7 +40,7 @@ Use `dotfiles-update` later to update the repository, packages, and shell plugin
 
 ## Editors and desktop automation
 
-- `home/.config/nvim/init.lua` — Neovim Treesitter and rendered-Markdown plugins.
+- `home/.config/nvim/init.lua` — Neovim Treesitter and rendered-Markdown plugins, plus autocomplete when editing a command line opened with Ctrl-X Ctrl-E.
 - `home/.config/karabiner/assets/complex_modifications/caps_lock_to_hyper.json` — maps Caps Lock to Hyper/Super (`Control-Option-Shift-Command`) when held and Escape when tapped. Enable **Caps Lock to Hyper** in Karabiner-Elements after bootstrapping.
 - `home/.hammerspoon/init.lua` — uses the Hyper modifier supplied by Karabiner: Hyper-1 through 4 open Ghostty, Firefox, Slack, and IntelliJ IDEA; Hyper-R reloads Hammerspoon.
 
