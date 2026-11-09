@@ -51,7 +51,7 @@ fi
 zstyle ':completion:*' menu no
 zstyle ':completion:*:descriptions' format '[%d]'
 zstyle ':fzf-tab:*' switch-group '<' '>'
-zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
+zstyle ':fzf-tab:complete:(cd|z):*' fzf-preview 'eza -1 --color=always $realpath'
 
 [[ -f "$DOTFILES/lib/aliases.zsh" ]] && source "$DOTFILES/lib/aliases.zsh"
 
