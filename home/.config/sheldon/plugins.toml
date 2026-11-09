@@ -9,6 +9,8 @@ use = ["spaceship.zsh"]
 [plugins.spaceship]
 github = "spaceship-prompt/spaceship-prompt"
 apply = ["spaceship"]
+[plugins.fzf-tab]
+github = "Aloxaf/fzf-tab"
 [plugins.zsh-autosuggestions]
 github = "zsh-users/zsh-autosuggestions"
 use = ["{{ name }}.zsh"]
