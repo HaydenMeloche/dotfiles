@@ -76,3 +76,9 @@ unset _herdr_rename_hook
 
 # This file is intentionally untracked: tokens, work endpoints, and local paths go here.
 [[ -f "$HOME/.zshlocal" ]] && source "$HOME/.zshlocal"
+
+# Smarter cd: `z foo` jumps to frecent directories, `zi` picks with fzf.
+# Initialized last so its directory-change hook isn't overridden.
+if command -v zoxide >/dev/null 2>&1; then
+  eval "$(zoxide init zsh)"
+fi

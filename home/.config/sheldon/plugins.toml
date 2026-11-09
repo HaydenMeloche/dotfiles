@@ -16,9 +16,6 @@ github = "zsh-users/zsh-autosuggestions"
 use = ["{{ name }}.zsh"]
 [plugins.zsh-autopair]
 github = "hlissner/zsh-autopair"
-[plugins.z]
-github = "agkozak/zsh-z"
-
 [plugins.zsh-syntax-highlighting]
 github = "zsh-users/zsh-syntax-highlighting"
 

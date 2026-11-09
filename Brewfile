@@ -17,6 +17,7 @@ brew "pyenv"
 brew "ripgrep"
 brew "sheldon"
 brew "yazi"
+brew "zoxide"
 brew "zsh"
 
 # Desktop and developer apps

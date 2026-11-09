@@ -28,7 +28,7 @@ Use `dotfiles-update` later to update the repository, packages, and shell plugin
 ## Shell and terminal
 
 - `home/.zprofile` — Homebrew and Docker CLI environment setup.
-- `home/.zshrc` — shell defaults, PATH entries, NVM, SDKMAN!, Sheldon, direnv, fzf, Herdr tab naming, and loading of private local settings.
+- `home/.zshrc` — shell defaults, PATH entries, NVM, SDKMAN!, Sheldon, direnv, fzf, zoxide, Herdr tab naming, and loading of private local settings.
 - `lib/aliases.zsh` — common shell and Git aliases plus `killport`.
 - `lib/lscolors.zsh` — file-listing and completion colours.
 - `lib/smartdots.zsh` — expands repeated `.` keystrokes into parent-directory navigation.
