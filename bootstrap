@@ -35,7 +35,7 @@ for source_path in \
 done
 mkdir -p "$HOME/.config/sheldon" "$HOME/.config/ghostty" "$HOME/.config/nvim" \
   "$HOME/.config/herdr" "$HOME/.config/rex" "$HOME/.config/karabiner/assets/complex_modifications" \
-  "$HOME/.hammerspoon" "$HOME/.claude/hooks" "$HOME/.codex/skills" \
+  "$HOME/.claude/hooks" "$HOME/.codex/skills" \
   "$HOME/.ssh"
 link_file "$repo_dir/home/.config/sheldon/plugins.toml" "$HOME/.config/sheldon/plugins.toml"
 link_file "$repo_dir/home/.config/ghostty/config" "$HOME/.config/ghostty/config"
@@ -44,7 +44,6 @@ link_file "$repo_dir/home/.config/rex/init.lua" "$HOME/.config/rex/init.lua"
 link_file "$repo_dir/home/.config/rex/rex_open.lua" "$HOME/.config/rex/rex_open.lua"
 link_file "$repo_dir/home/.config/karabiner/assets/complex_modifications/caps_lock_to_hyper.json" "$HOME/.config/karabiner/assets/complex_modifications/caps_lock_to_hyper.json"
 link_file "$repo_dir/home/.config/nvim/init.lua" "$HOME/.config/nvim/init.lua"
-link_file "$repo_dir/home/.hammerspoon/init.lua" "$HOME/.hammerspoon/init.lua"
 link_file "$repo_dir/home/.claude/settings.json" "$HOME/.claude/settings.json"
 link_file "$repo_dir/home/.claude/CLAUDE.md" "$HOME/.claude/CLAUDE.md"
 link_file "$repo_dir/home/.claude/hooks/herdr-agent-state.sh" "$HOME/.claude/hooks/herdr-agent-state.sh"

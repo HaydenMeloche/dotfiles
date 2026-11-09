@@ -43,7 +43,6 @@ Use `dotfiles-update` later to update the repository, packages, and shell plugin
 
 - `home/.config/nvim/init.lua` — Neovim Treesitter and rendered-Markdown plugins, plus autocomplete when editing a command line opened with Ctrl-X Ctrl-E.
 - `home/.config/karabiner/assets/complex_modifications/caps_lock_to_hyper.json` — maps Caps Lock to Hyper/Super (`Control-Option-Shift-Command`) when held and Escape when tapped. Enable **Caps Lock to Hyper** in Karabiner-Elements after bootstrapping.
-- `home/.hammerspoon/init.lua` — uses the Hyper modifier supplied by Karabiner: Hyper-1 through 4 open Ghostty, Firefox, Slack, and IntelliJ IDEA; Hyper-R reloads Hammerspoon.
 
 ## Git, SSH, and coding agents
 
