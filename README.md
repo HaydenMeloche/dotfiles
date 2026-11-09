@@ -14,9 +14,6 @@ The installation script symlinks the files in this repo to the locations that th
 
 Once the script is complete, set your Git identity in `~/.gitconfig.local` and add your SSH key to `~/.ssh/config`. A `~/.zshlocal` file is created for private environment variables.
 
-I never use caps lock, therefore I remap it to a "super" shortcut through Karabiner. I do this to achieve my window-tiling style quick access keys for example `CAPS + 1` opening/focusing Ghostty.
-If you want to replicate this, open Karabiner-Elements and enable **Caps Lock to Hyper** from **Complex Modifications**.
-
 Use `dotfiles-update` later to update the repository, packages, and shell plugins.
 
 ## What is configured
@@ -39,7 +36,7 @@ Use `dotfiles-update` later to update the repository, packages, and shell plugin
 - `home/.config/ghostty/config` — TokyoNight theme, FiraCode Nerd Font, and Option as Alt.
 - `home/.config/rex/init.lua` and `home/.config/rex/rex_open.lua` — Rex terminal config and the rex-open picker (Alt-Cmd-O) for files, links and commands in a pane's output. Rex itself is installed from the Rex website, not Homebrew.
 
-## Editors and desktop automation
+## Editor
 
 - `home/.config/nvim/init.lua` — Neovim Treesitter and rendered-Markdown plugins, plus autocomplete when editing a command line opened with Ctrl-X Ctrl-E.
 
