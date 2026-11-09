@@ -1,7 +1,7 @@
 onboarding = false
 
 [theme]
-name = "terminal"
+name = "tokyo-night"
 auto_switch = false
 
 [theme.custom]
@@ -11,10 +11,15 @@ panel_bg = "#2d333b"
 agent_panel_sort = "spaces"
 show_agent_labels_on_pane_borders = false
 prompt_new_tab_name = false
-
 status_indicators = "symbols"
+
 [ui.sound]
 enabled = false
 
 [ui.toast]
 delivery = "terminal"
+
+[keys]
+previous_agent = "alt+k"
+next_agent = "alt+j"
+indexed.agents = "alt"
