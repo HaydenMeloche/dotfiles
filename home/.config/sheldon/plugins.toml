@@ -9,8 +9,6 @@ use = ["spaceship.zsh"]
 [plugins.spaceship]
 github = "spaceship-prompt/spaceship-prompt"
 apply = ["spaceship"]
-[plugins.zsh-syntax-highlighting]
-github = "zsh-users/zsh-syntax-highlighting"
 [plugins.zsh-autosuggestions]
 github = "zsh-users/zsh-autosuggestions"
 use = ["{{ name }}.zsh"]
@@ -18,6 +16,9 @@ use = ["{{ name }}.zsh"]
 github = "hlissner/zsh-autopair"
 [plugins.z]
 github = "agkozak/zsh-z"
+
+[plugins.zsh-syntax-highlighting]
+github = "zsh-users/zsh-syntax-highlighting"
 
 [templates]
 spaceship = '''
