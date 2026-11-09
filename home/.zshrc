@@ -1,6 +1,5 @@
 export DOTFILES="${DOTFILES:-$HOME/.dotfiles}"
 export LANG="en_US.UTF-8"
-export LC_ALL="en_US.UTF-8"
 export PAGER="less"
 export EDITOR="nvim"
 export VISUAL="$EDITOR"
