@@ -1,10 +1,12 @@
 if command -v eza >/dev/null 2>&1; then
   alias ll='eza -la --git'
+  alias l='eza -F'
+  alias la='eza -a'
 else
   alias ll='ls -la'
+  alias l='ls -CF'
+  alias la='ls -A'
 fi
-alias l='ls -CF'
-alias la='ls -A'
 alias g='git'
 alias gs='git status -sb'
 alias gd='git diff'
@@ -17,7 +19,6 @@ alias gf='git fetch'
 alias gl='git pull'
 alias grb='git rebase'
 alias c='clear'
-alias clr='clear'
 alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
