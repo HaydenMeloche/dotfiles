@@ -46,6 +46,7 @@ link_file "$repo_dir/home/.config/karabiner/assets/complex_modifications/caps_lo
 link_file "$repo_dir/home/.config/nvim/init.lua" "$HOME/.config/nvim/init.lua"
 link_file "$repo_dir/home/.hammerspoon/init.lua" "$HOME/.hammerspoon/init.lua"
 link_file "$repo_dir/home/.claude/settings.json" "$HOME/.claude/settings.json"
+link_file "$repo_dir/home/.claude/CLAUDE.md" "$HOME/.claude/CLAUDE.md"
 link_file "$repo_dir/home/.claude/hooks/herdr-agent-state.sh" "$HOME/.claude/hooks/herdr-agent-state.sh"
 [[ -f "$HOME/.codex/config.toml" ]] || cp "$repo_dir/home/.codex/config.toml" "$HOME/.codex/config.toml"
 link_file "$repo_dir/home/.codex/hooks.json" "$HOME/.codex/hooks.json"
