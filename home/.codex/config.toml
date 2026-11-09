@@ -1,0 +1,67 @@
+model = "gpt-6-sol"
+model_reasoning_effort = "medium"
+personality = "pragmatic"
+approvals_reviewer = "auto_review"
+service_tier = "default"
+plan_mode_reasoning_effort = "medium"
+default_permissions = "github-cli"
+notify = ["/Users/hayden/.codex/computer-use/Codex Computer Use.app/Contents/SharedSupport/SkyComputerUseClient.app/Contents/MacOS/SkyComputerUseClient", "turn-ended"]
+
+# Keep Codex sandboxed while allowing GitHub CLI commands to use the local
+# authentication/configuration state they need.
+[permissions.github-cli]
+description = "Workspace access plus GitHub CLI and Git-over-SSH access"
+extends = ":workspace"
+
+[permissions.github-cli.filesystem]
+"/Users/hayden/.config/gh" = "read"
+
+"/Users/hayden/.ssh" = "read"
+
+[permissions.github-cli.network]
+enabled = true
+mode = "full"
+
+[plugins."github@openai-curated"]
+enabled = true
+
+[plugins."codex-app-tools@openai-bundled"]
+enabled = true
+
+[plugins."browser@openai-bundled"]
+enabled = true
+
+[plugins."unified-computer-use@openai-bundled"]
+enabled = true
+
+[plugins."computer-use@openai-bundled"]
+enabled = true
+
+[plugins."visualize@openai-bundled"]
+enabled = true
+
+[plugins."documents@openai-primary-runtime"]
+enabled = true
+
+[plugins."pdf@openai-primary-runtime"]
+enabled = true
+
+[plugins."spreadsheets@openai-primary-runtime"]
+enabled = true
+
+[plugins."presentations@openai-primary-runtime"]
+enabled = true
+
+[plugins."template-creator@openai-primary-runtime"]
+enabled = true
+
+[plugins."code-review@openai-bundled"]
+enabled = true
+
+[features]
+hooks = true
+
+[desktop]
+followUpQueueMode = "steer"
+conversationDetailMode = "STEPS_PROSE"
+ambient-suggestions-enabled = true
