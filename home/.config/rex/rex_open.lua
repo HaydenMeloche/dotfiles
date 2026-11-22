@@ -58,9 +58,10 @@ local function pane_dir(ctx)
 end
 
 -- A terminal in dir. With cmd, it runs cmd.run with /bin/sh, with cmd.args
--- as $1, $2, ..., in the login shell's environment.
+-- as $1, $2, ..., in the login shell's environment, or types cmd.input into
+-- the shell.
 local function pane_in(dir, cmd)
-  local options = { cwd = dir or (cmd and cmd.cwd) }
+  local options = { cwd = dir, initial_input = cmd and cmd.input }
   if cmd and cmd.run then
     options.command = { "/bin/sh", "-c", cmd.run, "sh" }
     for _, a in ipairs(cmd.args or {}) do options.command[#options.command + 1] = a end
@@ -110,13 +111,13 @@ end
 -- The picker (rex_open). It reads the focused pane's recent output and finds paths
 -- that exist (absolute, ~/, or relative to the pane's directory; files may
 -- end in :line) and commands it showed as code, and lists them after the
--- pane's directory. A file opens in your editor, a folder as a shell there,
--- and a command typed into a shell, not run. Change it with
--- setup{ picker = { ... } }.
+-- pane's directory, in the command palette. A second list asks how to open
+-- the row: where open says, in a new tab, below, or copied. A file opens in
+-- your editor, a folder as a shell there, and a command typed into a shell,
+-- not run. Change it with setup{ picker = { ... } }.
 --   key   the key for rex_open
---   open  where it opens: float (a popup over the window; Enter then opens
---         to the right of the pane you were in), or right, left, down, up or
---         tab (Enter then opens in the picker's pane)
+--   open  where it opens first: right, left, down, up or tab, beside the
+--         pane you were in (float is an old name for right)
 --   view  shell code that opens file $1, at line $2 when the agent gave one
 --         ($2 is empty otherwise). Defaults to DEFAULT_VIEW.
 
@@ -143,7 +144,7 @@ esac
 
 M.DEFAULT_PICKER = {
   key  = "alt+cmd+o",
-  open = "float",
+  open = "right",
   view = M.DEFAULT_VIEW,
 }
 local PICKER_FIELDS = { key = true, open = true, view = true }
@@ -252,25 +253,25 @@ local function short_dir(path, dir)
   return short
 end
 
--- How a path shows in the picker: its name first, so a narrow pane doesn't
--- cut it off, then its folder, dimmed.
+-- How a path shows in the picker, as a title and subtitle: its name, then
+-- its folder.
 local function display(f, dir)
-  if f.kind == "cmd" then return "$ " .. f.path .. "  \27[2mcommand\27[0m" end
+  if f.kind == "cmd" then return "$ " .. f.path, "command" end
   if f.kind == "sql" then
     local shown = f.path:gsub("%s+", " ")
     if #shown > 70 then shown = shown:sub(1, 69) .. "…" end
-    return shown .. "  \27[2msql\27[0m"
+    return shown, "sql"
   end
   if f.kind == "url" then
     local shown = f.path:gsub("^https?://", ""):gsub("^www%.", "")
     if #shown > 60 then shown = shown:sub(1, 59) .. "…" end
-    return shown .. "  \27[2mlink\27[0m"
+    return shown, "link"
   end
   local name = basename(f.path) .. (f.kind == "dir" and "/" or "") ..
                (f.line and (":" .. f.line) or "")
   local parent = short_dir(f.path:match("^(.*)/[^/]*$") or "/", dir)
   if parent == "" then return name end
-  return name .. "  \27[2m" .. parent .. "\27[0m"
+  return name, parent
 end
 
 local TOKEN = "[^%s`'\"<>%(%)%[%]{}|,;]+"
@@ -295,27 +296,43 @@ end
 
 -- Splits Rex's HTML into lines, each with its text, the pieces drawn in a
 -- color (how agents show code), and whether any of it has a background (how
--- they show the prompt you typed).
+-- they show the prompt you typed). A piece the agent wrapped onto the next
+-- line, which ends the line with a space, is joined with the piece that
+-- starts the next line.
 local function html_lines(html)
   html = html:gsub('^<div style="font%-family[^"]*">', "")
   local lines = {}
   for l in (html .. "\n"):gmatch("([^\n]*)\n") do
     local text, code, bg, pos = {}, {}, false, 1
+    local code_starts, code_ends = false, false
     while true do
       local s, e, style, inner = l:find('<div style="([^"]*)">(.-)</div>', pos)
       if not s then break end
-      text[#text + 1] = unescape(l:sub(pos, s - 1))
+      local before = unescape(l:sub(pos, s - 1))
+      text[#text + 1] = before
       local piece = unescape(inner)
       text[#text + 1] = piece
+      code_ends = false
       if style:find("background", 1, true) then
         bg = true
       elseif style:find(";color:", 1, true) or style:sub(1, 6) == "color:" then
+        if #text == 2 and before:match("^%s*$") then code_starts = true end
         code[#code + 1] = piece
+        code_ends = true
       end
       pos = e + 1
     end
-    text[#text + 1] = unescape(l:sub(pos))
-    lines[#lines + 1] = { text = table.concat(text), code = code, bg = bg }
+    local after = unescape(l:sub(pos))
+    text[#text + 1] = after
+    if not after:match("^%s*$") then code_ends = false end
+    lines[#lines + 1] = { text = table.concat(text), code = code, bg = bg,
+                          code_starts = code_starts, code_ends = code_ends }
+  end
+  for i = 1, #lines - 1 do
+    local l, nl = lines[i], lines[i + 1]
+    if l.code_ends and nl.code_starts and l.code[#l.code]:match("%s$") then
+      l.code[#l.code] = l.code[#l.code] .. nl.code[1]
+    end
   end
   return lines
 end
@@ -564,174 +581,103 @@ local function mentioned_paths(html, dir)
   return commands_first(found)
 end
 
--- The picker. $1 is the list (display, path, line and kind, tab-separated),
--- $2 the pane to open beside, $3 the view code, $4 where Enter opens: "here"
--- (this pane becomes the shell or the file's viewer) or a side of $2 (right,
--- left, below or above), $5 the pane's directory, and $6 your editor.
--- Ctrl-T opens in a new tab and Ctrl-D below $2. Anything opened elsewhere goes through the rex
--- CLI, and this pane closes. A command opens as a shell in the pane's
--- directory with the command typed in, not run. Ctrl-Y copies the row (a
--- path, command, link or SQL) to the clipboard, and SQL is copied whichever
--- key chose it; its line breaks are \037 in the list. Without fzf, it shows
--- a numbered menu.
-local PICK = [[
-list=$1 anchor=$2 view=$3 enter=$4 agentdir=$5
-# $6 is your editor, found once by Rex, so view doesn't have to ask a shell.
-[ -z "${VISUAL:-$EDITOR}" ] && [ -n "$6" ] && export VISUAL="$6"
-case $enter in
-  here) where_enter="open here" ;;
-  above|below) where_enter="open $enter" ;;
-  *) where_enter="open to the $enter" ;;
-esac
-if command -v fzf >/dev/null 2>&1; then
-  out=$(fzf --ansi --no-sort --reverse --delimiter='	' --with-nth=1 --prompt='open> ' \
-    --expect=ctrl-t,ctrl-d,ctrl-y \
-    --header="enter: $where_enter · ctrl-t: open in a new tab · ctrl-d: open below
-ctrl-y: copy to the clipboard (sql is always copied)" < "$list")
-  key=$(printf '%s\n' "$out" | sed -n 1p)
-  pick=$(printf '%s\n' "$out" | sed -n 2p)
-else
-  i=0
-  while IFS='	' read -r shown _; do
-    i=$((i + 1)); printf '%3d  %s\n' "$i" "$shown"
-  done < "$list"
-  printf 'Open which? [1] '
-  read -r n
-  case ${n:-1} in *[!0-9]*) exit 0 ;; esac
-  pick=$(sed -n "${n:-1}p" "$list")
-  key=
+-- Copies text to the clipboard.
+local function copy(text)
+  local r = rex.exec({ "/bin/sh", "-c", [[
+if command -v pbcopy >/dev/null 2>&1; then exec pbcopy
+elif [ -n "$WAYLAND_DISPLAY" ] && command -v wl-copy >/dev/null 2>&1; then exec wl-copy
+elif command -v xclip >/dev/null 2>&1; then exec xclip -selection clipboard
+elif command -v xsel >/dev/null 2>&1; then exec xsel --clipboard --input
 fi
-rm -f "$list"
-[ -n "$pick" ] || exit 0
-path=$(printf '%s' "$pick" | cut -f 2)
-line=$(printf '%s' "$pick" | cut -f 3)
-kind=$(printf '%s' "$pick" | cut -f 4)
+exit 127]] }, { stdin = text, timeout = 5 })
+  if not (r and r.ok) then error("rex_open: couldn't copy; no clipboard program found", 0) end
+end
 
-copy() {
-  if command -v pbcopy >/dev/null 2>&1; then pbcopy
-  elif [ -n "$WAYLAND_DISPLAY" ] && command -v wl-copy >/dev/null 2>&1; then wl-copy
-  elif command -v xclip >/dev/null 2>&1; then xclip -selection clipboard
-  elif command -v xsel >/dev/null 2>&1; then xsel --clipboard --input
-  else
-    # No clipboard program: ask the terminal (OSC 52).
-    printf '\033]52;c;%s\a' "$(base64 | tr -d '\n')" > /dev/tty
-  fi
+-- Opens a link in your browser.
+local function open_url(url)
+  rex.exec({ "/bin/sh", "-c",
+             'if command -v open >/dev/null 2>&1; then open "$1"; else xdg-open "$1"; fi', "sh", url },
+           { stdout = false, stderr = false, timeout = 10 })
+end
+
+-- Where picker.open opens things. float is its old name for right.
+local OPEN = { float = "right", right = "right", left = "left", down = "down", up = "up", tab = "tab" }
+local WHERE_TITLES = {
+  right = "Open to the right", left = "Open to the left",
+  down = "Open below", up = "Open above", tab = "Open in a new tab",
 }
+local ICONS = { file = "document", dir = "folder", cmd = "terminal", sql = "database", url = "link" }
 
-if [ "$key" = ctrl-y ] || [ "$kind" = sql ]; then
-  printf '%s' "$path" | tr '\037' '\n' | copy
-  printf 'Copied to the clipboard.'; sleep 0.6
-  exit
-fi
-
-case $key in
-  ctrl-t) to=tab ;;
-  ctrl-d) to=below ;;
-  *) to=$enter ;;
-esac
-
-if [ "$kind" = url ]; then
-  # Links open in your browser, whichever key chose them.
-  if command -v open >/dev/null 2>&1; then open "$path"; else xdg-open "$path" >/dev/null 2>&1 & fi
-  exit
-fi
-
-if [ "$kind" = cmd ]; then
-  [ "$to" = here ] && to=right
-  if [ "$to" = tab ]; then
-    out=$(rex run -s "$REX_SESSION" -c "$agentdir" --label "$(printf %s "$path" | cut -c 1-24)" --json -- "${SHELL:-/bin/sh}" -l)
+-- Asks how to open f: where picker.open says first, so Enter twice does what
+-- Enter did, then a new tab, below, or copy. Returns a where or "copy", or
+-- nil when cancelled.
+local function ask_how(f)
+  local items
+  if f.kind == "url" then
+    items = { { id = "browser", title = "Open in your browser", icon = "globe" } }
   else
-    out=$(rex split -s "$REX_SESSION" -b "$anchor" --split="$to" -c "$agentdir" --json)
-  fi
-  new=$(printf '%s' "$out" | tr -d ' \n' | sed -n 's/.*"block_ids":\["\([^"]*\)".*/\1/p')
-  if [ -n "$new" ]; then
-    # Type it once the shell is waiting for input (it turns off canonical
-    # mode then); a shell still starting up would drop it.
-    i=0
-    while [ $i -lt 50 ]; do
-      rex block call -s "$REX_SESSION" -b "$new" input_mode 2>/dev/null | grep -q '"canonical":false' && break
-      sleep 0.1; i=$((i + 1))
-    done
-    sleep 0.1
-    rex block send -s "$REX_SESSION" -b "$new" "$path" >/dev/null
-  fi
-  exit
-fi
+    local first = OPEN[picker.open]
+    items = { { id = first, title = WHERE_TITLES[first] } }
+    for _, w in ipairs({ "tab", "down" }) do
+      if w ~= first then items[#items + 1] = { id = w, title = WHERE_TITLES[w] } end
+    end
+    if f.kind == "cmd" then
+      for _, it in ipairs(items) do it.subtitle = "typed into a new shell, not run" end
+    end
+  end
+  items[#items + 1] = { id = "copy", title = "Copy to the clipboard" }
+  local how, why = rex.ui.pick{ title = (display(f, f.dir)), items = items }
+  if how == nil and why ~= "cancelled" then rex.log("warn", "rex_open: " .. why) end
+  return how
+end
 
-if [ "$to" != here ]; then
-  if [ "$kind" = dir ]; then
-    where=$path
-    set -- "${SHELL:-/bin/sh}" -l
-  else
-    where=$(dirname "$path")
-    set -- env VISUAL="${VISUAL:-$EDITOR}" /bin/sh -c "$view" sh "$path" "$line"
-  fi
-  if [ "$to" = tab ]; then
-    rex run -s "$REX_SESSION" -c "$where" --label "$(basename "$path")" -- "$@" >/dev/null
-  else
-    rex split -s "$REX_SESSION" -b "$anchor" --split="$to" -c "$where" -- "$@" >/dev/null
-  fi
-  exit
-fi
-
-if [ "$kind" = dir ]; then
-  cd "$path" && exec "${SHELL:-/bin/sh}" -l
-fi
-set -- "$path" "$line"
-eval "$view"
-]]
-
--- The popup's place, as fractions of the window: x, y, width, height.
-local FLOAT_BOUNDS = { 0.2, 0.15, 0.6, 0.55 }
-
--- Where Enter opens for each picker.open, as a side for `rex split`.
-local ENTER = { float = "right", right = "here", left = "here", down = "here", up = "here", tab = "here" }
-
--- Opens the picker in a popup floating over the focused window.
-local function open_float(cmd)
-  local view, err = rex.session.view{}
-  if not view then error(err, 0) end
-  local r
-  r, err = rex.session.new_layer{
-    window_id = view.active_window_id,
-    bounds    = FLOAT_BOUNDS,
-    focus     = true,
-    layout    = pane_in(nil, cmd),
-  }
-  if not r then error(err, 0) end
-  return { layer_id = r.layer_id, block_id = r.block_ids and r.block_ids[1] }
+-- Opens f, a row the picker found, as how says.
+local function open_found(ctx, f, how)
+  if how == "copy" or f.kind == "sql" then return copy(f.path) end
+  if f.kind == "url" then return open_url(f.path) end
+  if f.kind == "dir" then return open_pane(ctx, how, f.path, nil, basename(f.path)) end
+  if f.kind == "cmd" then
+    return open_pane(ctx, how, f.dir, { input = f.path }, f.path:sub(1, 24))
+  end
+  local run = 'rex_open_ed=$3; set -- "$1" "$2"\n' ..
+              '[ -z "${VISUAL:-$EDITOR}" ] && [ -n "$rex_open_ed" ] && export VISUAL="$rex_open_ed"\n' ..
+              'unset rex_open_ed\n' .. picker.view
+  return open_pane(ctx, how, f.path:match("^(.*)/[^/]*$") or "/",
+                   { run = run, args = { f.path, f.line or "", get_shell_env().editor } },
+                   basename(f.path))
 end
 
 -- Opens the focused pane's directory, or a path, link or command in its
 -- output. With nothing found, it opens a shell in the pane's directory;
--- otherwise a picker with that directory first, then commands, then the
--- rest, newest first.
+-- otherwise it asks, in the command palette, which one, with that directory
+-- first, then commands, then the rest, newest first, and then how to open it.
 local function open_agent(ctx)
   local dir, block_id = pane_dir(ctx)
   local found = mentioned_paths(recent_output(block_id), dir)
   if #found == 0 then
-    -- Nothing to choose: a shell in the pane's directory, to the right when
-    -- the picker would float.
-    local where = picker.open == "float" and "right" or picker.open
-    return open_pane(ctx, where, dir, nil, basename(dir))
+    return open_pane(ctx, OPEN[picker.open], dir, nil, basename(dir))
   end
 
-  local list = os.tmpname()  -- the picker deletes it
-  local out, err = io.open(list, "w")
-  if not out then error("couldn't write the list of paths: " .. tostring(err), 0) end
-  out:write(basename(dir), "/  \27[2mcurrent directory\27[0m\t", dir, "\t\tdir\n")
-  for _, f in ipairs(found) do
-    local path = f.path:gsub("\t", "  "):gsub("\n", "\31")
-    out:write(display(f, dir), "\t", path, "\t", f.line or "", "\t", f.kind, "\n")
+  table.insert(found, 1, { path = dir, kind = "dir", current = true })
+  local items = {}
+  for i, f in ipairs(found) do
+    f.dir = dir
+    local title, subtitle = display(f, dir)
+    if f.current then title, subtitle = basename(dir) .. "/", "current directory" end
+    items[i] = { id = tostring(i), title = title, subtitle = subtitle, icon = ICONS[f.kind] }
   end
-  out:close()
-  local cmd = { run = PICK, args = { list, ctx.block_id, picker.view, ENTER[picker.open], dir,
-                                     get_shell_env().editor } }
-  if picker.open == "float" then
-    cmd.cwd = dir
-    return open_float(cmd)
+  local id, why = rex.ui.pick{
+    title       = "Open from " .. basename(dir),
+    placeholder = "Filter paths, links and commands",
+    items       = items,
+  }
+  if id == nil then
+    if why ~= "cancelled" then rex.log("warn", "rex_open: " .. why) end
+    return
   end
-  return open_pane(ctx, picker.open, dir, cmd, "open · " .. basename(dir))
+  local f = found[tonumber(id)]
+  local how = f.kind == "sql" and "copy" or ask_how(f)
+  if how then return open_found(ctx, f, how) end
 end
 
 rex.action{
@@ -763,8 +709,8 @@ function M.setup(opts)
       if not PICKER_FIELDS[f] then error("rex_open: picker has unknown field '" .. tostring(f) .. "'", 0) end
       picker[f] = v
     end
-    if not ENTER[picker.open] then
-      error("rex_open: picker has open = '" .. tostring(picker.open) .. "'; use float, right, left, down, up or tab", 0)
+    if not OPEN[picker.open] then
+      error("rex_open: picker has open = '" .. tostring(picker.open) .. "'; use right, left, down, up or tab", 0)
     end
     if type(picker.view) ~= "string" or picker.view == "" then
       error("rex_open: picker needs view = \"...\"", 0)
