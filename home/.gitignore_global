@@ -8,3 +8,5 @@
 *.key
 *.p12
 *.mobileprovision
+
+**/.claude/settings.local.json
