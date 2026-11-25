@@ -11,12 +11,12 @@ Personal macOS dotfiles. `bootstrap` installs everything; `README.md` lists what
 ## How files are installed
 
 - Most files under `home/` are symlinked into `~`, so editing `~/.zshrc` edits this repo.
-- Files that apps write machine state into are copied once instead of linked: `~/.codex/config.toml`, `~/.gitconfig.local`, `~/.ssh/config`. Don't symlink a file an app rewrites.
+- Files that apps write machine state into are copied once instead of linked: `~/.codex/config.toml`, `~/.cursor/cli-config.json`, `~/.gitconfig.local`, `~/.ssh/config`. Don't symlink a file an app rewrites.
 - A new config file needs a line in `bootstrap` and in the README's "What is configured" list.
 
 ## Lines apps add on their own
 
-Codex, Claude Code and Docker Desktop append to config files (project trust entries, hook hashes, a Docker `compinit` block). Don't commit those; move anything worth keeping into the right place by hand.
+Codex, Claude Code, Cursor CLI and Docker Desktop append to config files (project trust entries, hook hashes, auth/model caches, a Docker `compinit` block). Don't commit those; move anything worth keeping into the right place by hand.
 
 ## Shell load order
 

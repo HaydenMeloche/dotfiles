@@ -7,3 +7,5 @@ home/.ssh/id_*
 home/.ssh/*.pem
 home/.ssh/known_hosts*
 **/.env
+!home/.cursor/
+!home/.cursor/**

@@ -1,0 +1,41 @@
+{
+  "version": 1,
+  "permissions": {
+    "allow": [
+      "Shell(ls)"
+    ],
+    "deny": []
+  },
+  "editor": {
+    "vimMode": false
+  },
+  "display": {
+    "showLineNumbers": false,
+    "showThinkingBlocks": false,
+    "showStatusIndicators": false,
+    "showStatusLineRunningTime": false,
+    "mode": "zen"
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "~/.cursor/statusline.sh"
+  },
+  "notifications": true,
+  "hints": true,
+  "modelSlashCommands": true,
+  "steering": true,
+  "rewind": true,
+  "approvalMode": "auto-review",
+  "autoAcceptWebSearch": false,
+  "sandbox": {
+    "mode": "disabled",
+    "networkAccess": "user_config_with_defaults"
+  },
+  "network": {
+    "useHttp1ForAgent": false
+  },
+  "attribution": {
+    "attributeCommitsToAgent": false,
+    "attributePRsToAgent": false
+  }
+}

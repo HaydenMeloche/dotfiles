@@ -1,0 +1,16 @@
+#!/usr/bin/env zsh
+set -euo pipefail
+
+agent_bin="$HOME/.local/bin/agent"
+
+if command -v agent >/dev/null 2>&1; then
+  print "Cursor Agent CLI is already installed: $(agent --version)"
+  exit 0
+fi
+
+if [[ -x "$agent_bin" ]]; then
+  print "Cursor Agent CLI is already installed: $($agent_bin --version)"
+  exit 0
+fi
+
+curl -fsSL https://cursor.com/install | bash

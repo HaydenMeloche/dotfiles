@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "hooks": {
+    "sessionStart": [
+      {
+        "command": "bash \"$HOME/.cursor/herdr-agent-state.sh\" session",
+        "timeout": 10
+      },
+      {
+        "command": "/bin/sh -c 'out=$(rex __internal session-start --agent cursor --feature-session-naming=false 2>/dev/null) || out=\"\"; [ -n \"$out\" ] && printf \"%s\" \"$out\" | jq -Rs \"{additional_context: .}\" 2>/dev/null || printf \"{}\\n\"'",
+        "timeout": 5
+      }
+    ]
+  }
+}

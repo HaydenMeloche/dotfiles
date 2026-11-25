@@ -10,7 +10,7 @@ git clone git@github.com:HaydenMeloche/dotfiles.git ~/.dotfiles
 cd ~/.dotfiles
 ./bootstrap
 ```
-The installation script symlinks the files in this repo to the locations that their applications expect their configs to live. For example `$repo_dir/home/.zshrc` (the file in this repo) will be symlinked to `~/.zshrc`. Any direct config updates in the future to `~/.zshrc` is updating the git-versioned file in this repo. Files that apps write machine state into (`~/.codex/config.toml`, `~/.gitconfig.local`, `~/.ssh/config`) are copied once instead.
+The installation script symlinks the files in this repo to the locations that their applications expect their configs to live. For example `$repo_dir/home/.zshrc` (the file in this repo) will be symlinked to `~/.zshrc`. Any direct config updates in the future to `~/.zshrc` is updating the git-versioned file in this repo. Files that apps write machine state into (`~/.codex/config.toml`, `~/.cursor/cli-config.json`, `~/.gitconfig.local`, `~/.ssh/config`) are copied once instead.
 
 Once the script is complete, set your Git identity in `~/.gitconfig.local` and add your SSH key to `~/.ssh/config`. A `~/.zshlocal` file is created for private environment variables.
 
@@ -21,7 +21,7 @@ Use `dotfiles-update` later to update the repository, packages, and shell plugin
 - `Brewfile` — Homebrew command-line tools and desktop applications.
 - `bootstrap` — the main installer: installs Homebrew packages and developer tools, applies macOS defaults, and creates configuration symlinks.
 - `bin/dotfiles-update` — updates this repository, Homebrew packages, and Sheldon plugins.
-- `scripts/install-{nvm,sdkman,codex,claude}` — install NVM, SDKMAN!, Codex, and Claude Code if they are not already available.
+- `scripts/install-{nvm,sdkman,codex,claude,cursor-agent}` — install NVM, SDKMAN!, Codex, Claude Code, and Cursor Agent CLI if they are not already available.
 - `scripts/macos-defaults` — Dark Mode, keyboard and scrolling preferences, never sleeping on AC power, Dock layout, Finder settings, and trackpad click behavior.
 - `scripts/clone-repos` — clone the repositories listed in `~/.repos.tsv` (or `$REPOS_FILE`) into `~/code` (or `$CODE_DIR`), without replacing existing directories. `repos.tsv.example` shows the format.
 
@@ -49,9 +49,11 @@ Use `dotfiles-update` later to update the repository, packages, and shell plugin
 - `home/.ssh/config.example` — template for the untracked SSH GitHub host configuration.
 - `home/.codex/config.toml` — starting Codex config (model, permissions, plugins), copied to `~/.codex/config.toml` on first install. Codex keeps trusted projects and hook state in its own copy.
 - `home/.codex/hooks.json` and `home/.codex/herdr-agent-state.sh` — report Codex session state to Herdr.
-- `home/AGENTS.md` — global coding agent instructions: Rex sessions and panes, working style, code changes, Git and PRs, and writing. `home/.claude/CLAUDE.md` is a symlink to it, and `bootstrap` links it to `~/.codex/AGENTS.md`.
+- `home/AGENTS.md` — global coding agent instructions: Rex sessions and panes, working style, code changes, Git and PRs, and writing. `home/.claude/CLAUDE.md` is a symlink to it, `bootstrap` links it to `~/.codex/AGENTS.md`, and writes it with `alwaysApply: true` frontmatter to `~/.cursor/rules/agents.mdc`.
 - `home/.claude/settings.json` — Claude Code display settings and the Rex SessionStart hook.
-- `home/.claude/statusline.sh` — Claude Code status line in the style of pi-powerline-footer: model, folder, git status, context and cost.
+- `home/.claude/statusline.sh` — status line in the style of pi-powerline-footer (model, folder, git status, context, and cost), linked to both `~/.claude/statusline.sh` and `~/.cursor/statusline.sh`.
+- `home/.cursor/cli-config.json` — starting Cursor Agent CLI config (status line, attribution off, auto-review, zen display), copied to `~/.cursor/cli-config.json` on first install. Cursor keeps auth, model picker state, and server caches in its own copy.
+- `home/.cursor/hooks.json` and `home/.cursor/herdr-agent-state.sh` — Cursor Agent CLI `sessionStart` hooks for Herdr session state and Rex terminal context.
 - `home/.config/herdr/config.toml` — Herdr terminal theme, UI, status indicators, sound, and toast delivery preferences.
 
 ## Coding agents in this repo
@@ -64,4 +66,4 @@ Use `dotfiles-update` later to update the repository, packages, and shell plugin
 - `~/.gitconfig.local` for Git identity.
 - `~/.repos.tsv` for the list of repositories `scripts/clone-repos` clones.
 - `~/.ssh/config` and SSH keys for SSH configuration and credentials.
-- Codex and Claude authentication, session history, caches, and per-machine trust settings.
+- Codex, Claude, and Cursor CLI authentication, session history, caches, and per-machine trust settings.

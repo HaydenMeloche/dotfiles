@@ -16,6 +16,7 @@ fi
 "$repo_dir/scripts/install-sdkman"
 "$repo_dir/scripts/install-codex"
 "$repo_dir/scripts/install-claude"
+"$repo_dir/scripts/install-cursor-agent"
 
 link_file() {
   local source_path="$1" destination_path="$2"
@@ -24,6 +25,19 @@ link_file() {
     mv "$destination_path" "$destination_path.backup.$(date +%Y%m%d%H%M%S)"
   fi
   ln -sfn "$source_path" "$destination_path"
+}
+
+write_cursor_agents_rule() {
+  local source_path="$1" destination_path="$2"
+  mkdir -p "${destination_path:h}"
+  {
+    print -- '---'
+    print -- 'description: Global coding agent instructions'
+    print -- 'alwaysApply: true'
+    print -- '---'
+    print -- ''
+    cat "$source_path"
+  } >| "$destination_path"
 }
 
 for source_path in \
@@ -35,7 +49,7 @@ for source_path in \
 done
 mkdir -p "$HOME/.config/sheldon" "$HOME/.config/ghostty" "$HOME/.config/nvim" \
   "$HOME/.config/herdr" "$HOME/.config/rex" "$HOME/.config/worktrunk" \
-  "$HOME/.claude" "$HOME/.codex/skills" \
+  "$HOME/.claude" "$HOME/.codex/skills" "$HOME/.cursor/rules" \
   "$HOME/.ssh"
 link_file "$repo_dir/home/.config/sheldon/plugins.toml" "$HOME/.config/sheldon/plugins.toml"
 link_file "$repo_dir/home/.config/ghostty/config" "$HOME/.config/ghostty/config"
@@ -51,6 +65,11 @@ link_file "$repo_dir/home/.claude/statusline.sh" "$HOME/.claude/statusline.sh"
 link_file "$repo_dir/home/AGENTS.md" "$HOME/.codex/AGENTS.md"
 link_file "$repo_dir/home/.codex/hooks.json" "$HOME/.codex/hooks.json"
 link_file "$repo_dir/home/.codex/herdr-agent-state.sh" "$HOME/.codex/herdr-agent-state.sh"
+[[ -f "$HOME/.cursor/cli-config.json" ]] || cp "$repo_dir/home/.cursor/cli-config.json" "$HOME/.cursor/cli-config.json"
+link_file "$repo_dir/home/.cursor/hooks.json" "$HOME/.cursor/hooks.json"
+link_file "$repo_dir/home/.cursor/herdr-agent-state.sh" "$HOME/.cursor/herdr-agent-state.sh"
+link_file "$repo_dir/home/.claude/statusline.sh" "$HOME/.cursor/statusline.sh"
+write_cursor_agents_rule "$repo_dir/home/AGENTS.md" "$HOME/.cursor/rules/agents.mdc"
 legacy_ship="$HOME/.codex/skills/ship"
 if [[ -L "$legacy_ship" && "$(readlink "$legacy_ship")" == "$repo_dir/home/.codex/skills/ship" ]]; then
   rm "$legacy_ship"
