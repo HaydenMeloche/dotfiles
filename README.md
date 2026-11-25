@@ -49,7 +49,7 @@ Use `dotfiles-update` later to update the repository, packages, and shell plugin
 - `home/.ssh/config.example` — template for the untracked SSH GitHub host configuration.
 - `home/.codex/config.toml` — starting Codex config (model, permissions, plugins), copied to `~/.codex/config.toml` on first install. Codex keeps trusted projects and hook state in its own copy.
 - `home/.codex/hooks.json` and `home/.codex/herdr-agent-state.sh` — report Codex session state to Herdr.
-- `home/.claude/CLAUDE.md` — global Claude Code instructions: Rex sessions and panes, working style, code changes, Git and PRs, and writing.
+- `home/AGENTS.md` — global coding agent instructions: Rex sessions and panes, working style, code changes, Git and PRs, and writing. `home/.claude/CLAUDE.md` is a symlink to it, and `bootstrap` links it to `~/.codex/AGENTS.md`.
 - `home/.claude/settings.json` — Claude Code display settings and the Rex SessionStart hook.
 - `home/.claude/statusline.sh` — Claude Code status line in the style of pi-powerline-footer: model, folder, git status, context and cost.
 - `home/.config/herdr/config.toml` — Herdr terminal theme, UI, status indicators, sound, and toast delivery preferences.
