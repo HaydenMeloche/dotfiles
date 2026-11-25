@@ -10,3 +10,4 @@
 *.mobileprovision
 
 **/.claude/settings.local.json
+.worktrees/

@@ -59,6 +59,11 @@ if command -v direnv >/dev/null 2>&1; then
   eval "$(direnv hook zsh)"
 fi
 
+# `wt switch` needs a shell function to cd into the worktree.
+if command -v wt >/dev/null 2>&1; then
+  eval "$(wt config shell init zsh)"
+fi
+
 # Ctrl-R command-history search, Ctrl-T file search, and Alt-C directory search.
 if command -v fzf >/dev/null 2>&1; then
   source <(fzf --zsh)
